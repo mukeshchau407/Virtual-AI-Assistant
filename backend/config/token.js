@@ -2,7 +2,7 @@ const jwt = requre("jsonwebtoken");
 
 const getToken = async (userId) => {
   try {
-    const token = await jwt.sign({ id: userId }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ userId }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     return token;
@@ -12,3 +12,4 @@ const getToken = async (userId) => {
 };
 
 module.exports = getToken;
+
