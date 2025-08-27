@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const token = require("../config/token");
+const bcrypt = require("bcryptjs");
 
 const signup = async (req, res) => {
   try {
@@ -59,12 +61,14 @@ const login = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-const logout = (req, res) => {
-  res.cookie("token", "", {
-    httpOnly: true,
-    expires: new Date(0),
-    sameSite: "strict",
-    secure: false,
-  });
-  res.status(200).json({ message: "Logged out successfully" });
+
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    return res.status(200).json({ message: "Logout Successfully!" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };
+
+module.exports = { signup, login, logout };
