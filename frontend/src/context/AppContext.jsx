@@ -3,7 +3,7 @@ import React, { createContext, useContext } from "react";
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
-  const serverUrl = "http://localhost:8000";
+  const serverUrl = "http://localhost:4000";
 
   const value = { serverUrl };
 

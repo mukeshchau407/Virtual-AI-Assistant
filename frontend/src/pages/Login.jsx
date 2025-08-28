@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa";
 import { useAppContext } from "../context/AppContext";
 import axios from "axios";
 
 const Login = () => {
   const [state, setState] = useState("login");
-  const [showPassword, setShowPassword] = useState();
-  const [rememberMe, setRememberMe] = useState();
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -14,23 +14,42 @@ const Login = () => {
   });
   const { serverUrl } = useAppContext();
 
-  const registerHandler = async () => {
-    try {
-      const result = await axios.post(
-        `${serverUrl}/api/auth/signin`,
-        { data },
-        { withCredentials: true }
-      );
-      console.log(result.data);
-    } catch (error) {}
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("userEmail");
+    if (savedEmail) {
+      setData((prev) => ({ ...prev, email: savedEmail }));
+      setRememberMe(true);
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (state === "login") {
+      try {
+        const result = await axios.post(`${serverUrl}/api/auth/login`, data, {
+          withCredentials: true,
+        });
+        console.log("Login success:", result.data);
+        if (rememberMe) {
+          localStorage.setItem("userEmail", data.email);
+        }
+      } catch (err) {
+        console.error("Login failed:", err.response?.data || err.message);
+      }
+    } else {
+      try {
+        const result = await axios.post(`${serverUrl}/api/auth/signup`, data, {
+          withCredentials: true,
+        });
+        console.log("Register success:", result.data);
+      } catch (err) {
+        console.error("Register failed:", err.response?.data || err.message);
+      }
+    }
   };
 
   const onChangeHandler = (e) => {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
   };
 
   return (
@@ -67,7 +86,7 @@ const Login = () => {
           <FaEnvelope className="text-zinc-500 dark:text-zinc-400" />
           <input
             type="email"
-            placeholder="Email id"
+            placeholder="Email"
             className="bg-transparent text-zinc-600 dark:text-zinc-200 placeholder-zinc-500 dark:placeholder-zinc-400 outline-none text-sm w-full h-full"
             name="email"
             value={data.email}
