@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const authRouter = require("./routes/auth.route");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const userRouter = require("./routes/user.route");
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
