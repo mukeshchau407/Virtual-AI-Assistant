@@ -12,7 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const { serverUrl } = useAppContext();
+  const { serverUrl, nevigate } = useAppContext();
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("userEmail");
@@ -30,9 +30,11 @@ const Login = () => {
           withCredentials: true,
         });
         console.log("Login success:", result.data);
+
         if (rememberMe) {
           localStorage.setItem("userEmail", data.email);
         }
+        nevigate("/home");
       } catch (err) {
         console.error("Login failed:", err.response?.data || err.message);
       }
@@ -42,6 +44,7 @@ const Login = () => {
           withCredentials: true,
         });
         console.log("Register success:", result.data);
+        setState("login");
       } catch (err) {
         console.error("Register failed:", err.response?.data || err.message);
       }
