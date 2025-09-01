@@ -12,7 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const { serverUrl, nevigate } = useAppContext();
+  const { serverUrl, navigate } = useAppContext();
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("userEmail");
@@ -34,7 +34,7 @@ const Login = () => {
         if (rememberMe) {
           localStorage.setItem("userEmail", data.email);
         }
-        nevigate("/home");
+        navigate("/");
       } catch (err) {
         console.error("Login failed:", err.response?.data || err.message);
       }
