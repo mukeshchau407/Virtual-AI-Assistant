@@ -29,7 +29,7 @@ const Login = () => {
         const result = await axios.post(`${serverUrl}/api/auth/login`, data, {
           withCredentials: true,
         });
-        console.log("Login success:", result.data);
+        console.log("Login success!");
 
         if (rememberMe) {
           localStorage.setItem("userEmail", data.email);
@@ -43,7 +43,7 @@ const Login = () => {
         const result = await axios.post(`${serverUrl}/api/auth/signup`, data, {
           withCredentials: true,
         });
-        console.log("Register success:", result.data);
+        console.log("Register success!");
         setState("login");
       } catch (err) {
         console.error("Register failed:", err.response?.data || err.message);

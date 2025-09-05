@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Customize from "./pages/Customize"; // create this page
+import Customize from "./pages/Customize";
 import { useAppContext } from "./context/AppContext";
 
 const App = () => {
-  const { userData, navigate } = useAppContext();
+  const navigate = useNavigate();
+  const { userData } = useAppContext();
 
   useEffect(() => {
     if (userData?.isLoggedIn) {
