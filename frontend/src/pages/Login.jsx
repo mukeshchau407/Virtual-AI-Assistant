@@ -6,7 +6,7 @@ import axios from "axios";
 const Login = () => {
   const [state, setState] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState();
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -19,6 +19,8 @@ const Login = () => {
     if (savedEmail) {
       setData((prev) => ({ ...prev, email: savedEmail }));
       setRememberMe(true);
+    } else {
+      setRememberMe(false);
     }
   }, []);
 
